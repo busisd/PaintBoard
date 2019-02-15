@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import java.util.LinkedList;
@@ -15,9 +16,10 @@ public class MainActivity extends AppCompatActivity {
     PaintView view;
     int statusBarHeight = 0;
     CountDownTimer repeat;
-    LinkedList<int[]> positions = new LinkedList<int[]>();
+    LinkedList<int[]> positions = new LinkedList<>();
     TextView fpsMeter;
     SeekBar seekBar;
+    LinearLayout optionsMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         view = findViewById(R.id.paintView);
         fpsMeter = findViewById(R.id.FPSMeter);
         seekBar = findViewById(R.id.seekBar);
+        optionsMenu = findViewById(R.id.optionsMenu);
 
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId>0){
@@ -98,6 +101,12 @@ public class MainActivity extends AppCompatActivity {
         int b = (int) (Math.random()*256);
         view.setColor(Color.argb(a,r,g,b));
     }
+
+    public void toggleOptions(View v){
+        int curVis = optionsMenu.getVisibility();
+        if (curVis == View.VISIBLE) optionsMenu.setVisibility(View.GONE);
+        else optionsMenu.setVisibility(View.VISIBLE);
+    }
 }
 
 
@@ -107,4 +116,3 @@ public class MainActivity extends AppCompatActivity {
 //Todo: Save states! (Undo/redo!)
 //Todo: Make menu/buttons look nice!
 //Todo: Graphic in menu to display pen size when changing it!
-//Todo: Make the SeekBar more visible when at the left!
