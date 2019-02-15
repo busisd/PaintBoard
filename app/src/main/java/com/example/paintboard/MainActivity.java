@@ -116,3 +116,4 @@ public class MainActivity extends AppCompatActivity {
 //Todo: Save states! (Undo/redo!)
 //Todo: Make menu/buttons look nice!
 //Todo: Graphic in menu to display pen size when changing it!
+//Todo: Save/load from/to phone memory!
