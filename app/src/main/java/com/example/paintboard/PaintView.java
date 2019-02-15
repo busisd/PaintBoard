@@ -7,10 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-
-import java.util.Arrays;
 
 public class PaintView extends View {
     private Bitmap bitmap;
@@ -82,7 +79,7 @@ public class PaintView extends View {
         if (penRadius<=0) penRadius = 5;
     }
 
-    public void setPenSze(int newSize){
+    public void setPenSize(int newSize){
         penRadius = newSize;
     }
 

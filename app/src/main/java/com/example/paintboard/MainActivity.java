@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        view.setPenSze(seekBar.getProgress()+5);
+        view.setPenSize(seekBar.getProgress()+5);
         int x = Math.round(event.getX());
         int y = Math.round(event.getY());
         positions.push(new int[] {x,y-statusBarHeight});
