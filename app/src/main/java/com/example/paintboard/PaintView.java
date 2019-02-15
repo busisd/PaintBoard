@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -14,8 +15,8 @@ import java.util.Arrays;
 public class PaintView extends View {
     private int[] colorArray;
     private Bitmap bitmap;
+    private Canvas bitmapEditor;
     private Rect size;
-    private Rect arraySize;
     private int curColor = Color.BLACK;
     private int penRadius = 50;
 
@@ -35,29 +36,25 @@ public class PaintView extends View {
     @Override
     protected void onSizeChanged(int newX, int newY, int oldX, int oldY){
         size = new Rect(0,0,newX,newY);
-        arraySize = new Rect(0,0,newX/4,newY/4);
         if (bitmap == null) {
-            colorArray = new int[newX/4*newY/4];
+            colorArray = new int[newX*newY];
             Arrays.fill(colorArray, Color.WHITE);
-            bitmap = Bitmap.createBitmap(arraySize.width(), arraySize.height(), Bitmap.Config.ARGB_8888);
+            bitmap = Bitmap.createBitmap(size.width(), size.height(), Bitmap.Config.ARGB_8888);
+            bitmapEditor = new Canvas(bitmap);
         }
     }
 
     @Override
     protected void onDraw(Canvas c){
         super.onDraw(c);
-        bitmap.setPixels(colorArray, 0, arraySize.width(), 0, 0, arraySize.width(), arraySize.height());
         c.drawBitmap(bitmap, null, size, null);
     }
 
+    Paint p = new Paint(Color.BLACK);
     public void paintAt(int centerX, int centerY){
-        for (int x = -penRadius; x<=penRadius; x++){
-            int yStart = -(int)Math.sqrt(Math.pow(penRadius,2)-Math.pow(x,2));
-            int yEnd = (int)Math.sqrt(Math.pow(penRadius,2)-Math.pow(x,2));
-            for (int y = yStart; y <= yEnd; y++) {
-                if (isPosValid(x+centerX, y+centerY)) colorArray[arrayPos((x+centerX)/4,(y+centerY)/4)] = curColor;
-            }
-        }
+        p.setStyle(Paint.Style.FILL);
+        p.setStrokeWidth(0);
+        bitmapEditor.drawCircle(centerX, centerY, penRadius, p);
     }
 
     private boolean isPosValid(int x, int y){
@@ -65,7 +62,7 @@ public class PaintView extends View {
     }
 
     private int arrayPos(int x, int y){
-    return y*arraySize.width()+x;
+        return y*size.width()+x;
     }
 
     public int[] getColorArray(){
