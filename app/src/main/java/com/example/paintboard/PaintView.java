@@ -15,6 +15,7 @@ public class PaintView extends View {
     private int[] colorArray;
     private Bitmap bitmap;
     private Rect size;
+    private Rect arraySize;
     private int curColor = Color.BLACK;
     private int penRadius = 50;
 
@@ -34,17 +35,18 @@ public class PaintView extends View {
     @Override
     protected void onSizeChanged(int newX, int newY, int oldX, int oldY){
         size = new Rect(0,0,newX,newY);
+        arraySize = new Rect(0,0,newX/4,newY/4);
         if (bitmap == null) {
-            colorArray = new int[newX*newY];
+            colorArray = new int[newX/4*newY/4];
             Arrays.fill(colorArray, Color.WHITE);
-            bitmap = Bitmap.createBitmap(size.width(), size.height(), Bitmap.Config.ARGB_8888);
+            bitmap = Bitmap.createBitmap(arraySize.width(), arraySize.height(), Bitmap.Config.ARGB_8888);
         }
     }
 
     @Override
     protected void onDraw(Canvas c){
         super.onDraw(c);
-        bitmap.setPixels(colorArray, 0, size.width(), 0, 0, size.width(), size.height());
+        bitmap.setPixels(colorArray, 0, arraySize.width(), 0, 0, arraySize.width(), arraySize.height());
         c.drawBitmap(bitmap, null, size, null);
     }
 
@@ -53,7 +55,7 @@ public class PaintView extends View {
             int yStart = -(int)Math.sqrt(Math.pow(penRadius,2)-Math.pow(x,2));
             int yEnd = (int)Math.sqrt(Math.pow(penRadius,2)-Math.pow(x,2));
             for (int y = yStart; y <= yEnd; y++) {
-                if (isPosValid(x+centerX, y+centerY)) colorArray[arrayPos(x+centerX,y+centerY)] = curColor;
+                if (isPosValid(x+centerX, y+centerY)) colorArray[arrayPos((x+centerX)/4,(y+centerY)/4)] = curColor;
             }
         }
     }
@@ -63,7 +65,7 @@ public class PaintView extends View {
     }
 
     private int arrayPos(int x, int y){
-        return y*size.width()+x;
+    return y*arraySize.width()+x;
     }
 
     public int[] getColorArray(){
