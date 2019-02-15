@@ -1,21 +1,15 @@
 package com.example.paintboard;
 
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
     PaintView view;
@@ -105,3 +99,12 @@ public class MainActivity extends AppCompatActivity {
         view.setColor(Color.argb(a,r,g,b));
     }
 }
+
+
+//Todo: Interpolation between circles (draw lines?)
+//Todo: Use a SeekBarListener
+//Todo: Come up with a solution for colors (using one or more SeekBars?)
+//Todo: Save states! (Undo/redo!)
+//Todo: Make menu/buttons look nice!
+//Todo: Graphic in menu to display pen size when changing it!
+//Todo: Make the SeekBar more visible when at the left!
