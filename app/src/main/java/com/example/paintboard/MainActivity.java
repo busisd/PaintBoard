@@ -1,14 +1,16 @@
 package com.example.paintboard;
 
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-
+import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -19,12 +21,14 @@ public class MainActivity extends AppCompatActivity {
     int statusBarHeight = 0;
     CountDownTimer repeat;
     LinkedList<int[]> positions = new LinkedList<int[]>();
+    TextView fpsMeter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         view = findViewById(R.id.paintView);
+        fpsMeter = findViewById(R.id.FPSMeter);
 
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId>0){
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                updateFPS();
                 draw();
             }
         }.start();
@@ -68,5 +73,30 @@ public class MainActivity extends AppCompatActivity {
         }
         view.invalidate();
         repeat.start();
+    }
+
+    private long prevTime = 0;
+    private void updateFPS(){
+        long curTime = SystemClock.elapsedRealtime();
+        long curFPS = 1000/(curTime-prevTime);
+        prevTime = curTime;
+        String FPSOut = "FPS: "+Long.toString(curFPS);
+        fpsMeter.setText(FPSOut);
+    }
+
+    public void increasePenSize(View v){
+        view.changePenSize(5);
+    }
+
+    public void decreasePenSize(View v){
+        view.changePenSize(-5);
+    }
+
+    public void setRandomColor(View v){
+        int a = (int) (Math.random()*256);
+        int r = (int) (Math.random()*256);
+        int g = (int) (Math.random()*256);
+        int b = (int) (Math.random()*256);
+        view.setColor(Color.argb(a,r,g,b));
     }
 }

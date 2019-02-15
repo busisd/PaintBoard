@@ -6,14 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <view
-        android:id="@+id/paintView"
-        class="com.example.paintboard.PaintView"
-        id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0"
+        tools:layout_editor_absoluteY="0">
+
+        <view
+            android:id="@+id/paintView"
+            class="com.example.paintboard.PaintView"
+            id="@+id/view"
+            android:layout_width="406dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/FPSMeter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/PenSizeUpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="increasePenSize"
+                android:text="@string/penSizeUpButtonString" />
+
+            <Button
+                android:id="@+id/PenSizeDownButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="decreasePenSize"
+                android:text="@string/penSizeDownButtonString" />
+
+            <Button
+                android:id="@+id/randomColorButton"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:onClick="setRandomColor"
+                android:text="@string/randomColorButtonString" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
 </android.support.constraint.ConstraintLayout>

@@ -13,33 +13,40 @@ import android.view.View;
 import java.util.Arrays;
 
 public class PaintView extends View {
-    private int[] colorArray;
     private Bitmap bitmap;
     private Canvas bitmapEditor;
     private Rect size;
-    private int curColor = Color.BLACK;
     private int penRadius = 50;
-
+    private Paint p;
 
     public PaintView(Context context) {
         super(context);
+        init();
     }
 
     public PaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public PaintView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+
+
+    private void init(){
+        p = new Paint(Color.BLACK);
+        p.setStrokeWidth(0);
+        p.setStyle(Paint.Style.FILL);
     }
 
     @Override
     protected void onSizeChanged(int newX, int newY, int oldX, int oldY){
         size = new Rect(0,0,newX,newY);
         if (bitmap == null) {
-            colorArray = new int[newX*newY];
-            Arrays.fill(colorArray, Color.WHITE);
             bitmap = Bitmap.createBitmap(size.width(), size.height(), Bitmap.Config.ARGB_8888);
+            bitmap.eraseColor(Color.WHITE);
             bitmapEditor = new Canvas(bitmap);
         }
     }
@@ -50,23 +57,12 @@ public class PaintView extends View {
         c.drawBitmap(bitmap, null, size, null);
     }
 
-    Paint p = new Paint(Color.BLACK);
     public void paintAt(int centerX, int centerY){
-        p.setStyle(Paint.Style.FILL);
-        p.setStrokeWidth(0);
         bitmapEditor.drawCircle(centerX, centerY, penRadius, p);
     }
 
     private boolean isPosValid(int x, int y){
         return (x < size.width() && y < size.height() && x >= 0 && y >= 0);
-    }
-
-    private int arrayPos(int x, int y){
-        return y*size.width()+x;
-    }
-
-    public int[] getColorArray(){
-        return colorArray;
     }
 
     public void saveState(){
@@ -79,5 +75,14 @@ public class PaintView extends View {
 
     public void forwardState(){
 
+    }
+
+    public void changePenSize(int change){
+        penRadius += change;
+        if (penRadius<=0) penRadius = 5;
+    }
+
+    public void setColor(int newColor){
+        p.setColor(newColor);
     }
 }
