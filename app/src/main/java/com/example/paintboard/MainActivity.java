@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     CountDownTimer repeat;
     LinkedList<int[]> positions = new LinkedList<int[]>();
     TextView fpsMeter;
+    SeekBar seekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         view = findViewById(R.id.paintView);
         fpsMeter = findViewById(R.id.FPSMeter);
+        seekBar = findViewById(R.id.seekBar);
 
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId>0){
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        view.setPenSze(seekBar.getProgress()+5);
         int x = Math.round(event.getX());
         int y = Math.round(event.getY());
         positions.push(new int[] {x,y-statusBarHeight});
@@ -93,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setRandomColor(View v){
-        int a = (int) (Math.random()*256);
+//        int a = (int) (Math.random()*256);
+        int a = 255;
         int r = (int) (Math.random()*256);
         int g = (int) (Math.random()*256);
         int b = (int) (Math.random()*256);

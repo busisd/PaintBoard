@@ -58,6 +58,11 @@
                 android:onClick="setRandomColor"
                 android:text="@string/randomColorButtonString" />
 
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="134dp"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
     </FrameLayout>

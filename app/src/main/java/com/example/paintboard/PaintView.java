@@ -82,6 +82,10 @@ public class PaintView extends View {
         if (penRadius<=0) penRadius = 5;
     }
 
+    public void setPenSze(int newSize){
+        penRadius = newSize;
+    }
+
     public void setColor(int newColor){
         p.setColor(newColor);
     }
