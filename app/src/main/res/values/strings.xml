@@ -3,4 +3,5 @@
     <string name="penSizeUpButtonString">Pen Size Up</string>
     <string name="penSizeDownButtonString">Pen Size Down</string>
     <string name="randomColorButtonString">Pen Color Random</string>
+    <string name="menuString">≡</string>
 </resources>

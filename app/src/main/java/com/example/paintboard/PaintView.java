@@ -9,12 +9,15 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class PaintView extends View {
     private Bitmap bitmap;
     private Canvas bitmapEditor;
     private Rect size;
     private int penRadius = 50;
     private Paint p;
+    private ArrayList<Bitmap> pastBitmaps;
 
     public PaintView(Context context) {
         super(context);
@@ -36,6 +39,7 @@ public class PaintView extends View {
         p = new Paint(Color.BLACK);
         p.setStrokeWidth(0);
         p.setStyle(Paint.Style.FILL);
+        pastBitmaps = new ArrayList<>();
     }
 
     @Override
@@ -63,11 +67,15 @@ public class PaintView extends View {
     }
 
     public void saveState(){
-
+        pastBitmaps.add(0, bitmap.copy(bitmap.getConfig(), true));
     }
 
     public void reverseState(){
-
+        if (!pastBitmaps.isEmpty()) {
+            Bitmap newMap = pastBitmaps.remove(0);
+            bitmap = newMap.copy(newMap.getConfig(), true);
+            bitmapEditor = new Canvas(bitmap);
+        }
     }
 
     public void forwardState(){

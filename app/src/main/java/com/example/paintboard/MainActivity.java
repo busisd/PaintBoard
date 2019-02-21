@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -62,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
                 y =  Math.round(event.getHistoricalY(i));
                 positions.push(new int[] {x,y-statusBarHeight});
             }
-        }
+        } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            view.saveState();
+    }
         return true;
     }
 
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         long curTime = SystemClock.elapsedRealtime();
         long curFPS = 1000/(curTime-prevTime);
         prevTime = curTime;
-        String FPSOut = "FPS: "+Long.toString(curFPS);
+        String FPSOut = "        FPS: "+Long.toString(curFPS);
         fpsMeter.setText(FPSOut);
     }
 
@@ -106,6 +109,10 @@ public class MainActivity extends AppCompatActivity {
         int curVis = optionsMenu.getVisibility();
         if (curVis == View.VISIBLE) optionsMenu.setVisibility(View.GONE);
         else optionsMenu.setVisibility(View.VISIBLE);
+    }
+
+    public void undo(View v) {
+        view.reverseState();
     }
 }
 
