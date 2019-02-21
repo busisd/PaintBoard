@@ -7,9 +7,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class PaintView extends View {
     private Bitmap bitmap;
@@ -42,6 +44,11 @@ public class PaintView extends View {
         p.setStyle(Paint.Style.FILL);
         undoStates = new ArrayList<>();
         redoStates = new ArrayList<>();
+
+        p2 = new Paint();
+        p2.setStrokeWidth(50);
+        p2.setColor(Color.BLUE);
+        p2.setStrokeCap(Paint.Cap.ROUND);
     }
 
     @Override
@@ -64,13 +71,33 @@ public class PaintView extends View {
         bitmapEditor.drawCircle(centerX, centerY, penRadius, p);
     }
 
+    private Paint p2;
+    private int[] prevPos = new int[] {0,0};
+    public void drawLines(LinkedList<int[]> positions){
+        if (!positions.isEmpty()) {
+            bitmapEditor.drawLine(prevPos[0],prevPos[1], positions.get(0)[0], positions.get(0)[1], p2);
+            for (int i=0; i<positions.size()-1;i++) {
+                bitmapEditor.drawLine(positions.get(i)[0],positions.get(i)[1], positions.get(i+1)[0], positions.get(i+1)[1], p2);
+            }
+            prevPos = positions.getLast();
+        }
+    }
+
     private boolean isPosValid(int x, int y){
         return (x < size.width() && y < size.height() && x >= 0 && y >= 0);
     }
 
-    public void saveState(){
+    public void fingerDown(int[] position){
+        prevPos = position;
+        saveState();
+    }
+
+    private void saveState(){
         redoStates.clear();
         undoStates.add(0, bitmap.copy(bitmap.getConfig(), true));
+        if (undoStates.size() > 5){
+            undoStates.remove(undoStates.size()-1);
+        }
     }
 
     public void reverseState(){

@@ -32,8 +32,9 @@
 
         <LinearLayout
             android:id="@+id/optionsMenu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="312dp"
+            android:background="#88CCCCCC"
             android:orientation="vertical">
 
             <TextView

@@ -54,27 +54,36 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         view.setPenSize(seekBar.getProgress()+5);
-        int x = Math.round(event.getX());
-        int y = Math.round(event.getY());
-        positions.push(new int[] {x,y-statusBarHeight});
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            for (int i = event.getHistorySize() - 1; i >= 0; i--) {
+            int x;
+            int y;
+            for (int i = 0; i < event.getHistorySize(); i++) {
                 x =  Math.round(event.getHistoricalX(i));
                 y =  Math.round(event.getHistoricalY(i));
-                positions.push(new int[] {x,y-statusBarHeight});
+                positions.add(new int[] {x,y-statusBarHeight});
+                Log.i("TIME1:",Long.toString(event.getHistoricalEventTime(i)));
             }
+            x = Math.round(event.getX());
+            y = Math.round(event.getY());
+            positions.add(new int[] {x,y-statusBarHeight});
+            Log.i("TIME2:",Long.toString(event.getEventTime()));
+
+
         } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            view.saveState();
-    }
+            int[] pos = {(int)event.getX(), (int)event.getY()};
+            view.fingerDown(pos);
+        }
         return true;
     }
 
     public void draw(){
-        int[] cur;
-        while(positions.size() > 0) {
-            cur = positions.removeLast();
-            view.paintAt(cur[0], cur[1]);
-        }
+        //int[] cur;
+        //while(positions.size() > 0) {
+          //  cur = positions.removeLast();
+            //view.paintAt(cur[0], cur[1]);
+        //}
+        view.drawLines(positions);
+        positions.clear();
         view.invalidate();
         repeat.start();
     }
@@ -124,8 +133,9 @@ public class MainActivity extends AppCompatActivity {
 //Todo: Interpolation between circles (draw lines?)
 //Todo: Use a SeekBarListener
 //Todo: Come up with a solution for colors (using one or more SeekBars?)
-//Todo: Save states! (Undo/redo!)
 //Todo: Make menu/buttons look nice!
 //Todo: Graphic in menu to display pen size when changing it!
 //Todo: Save/load from/to phone memory!
 //Todo: Fill tool!
+//Todo: Use a custom drawable to add a border to the menu
+//Todo: Make the menu look nice!
