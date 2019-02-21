@@ -114,6 +114,10 @@ public class MainActivity extends AppCompatActivity {
     public void undo(View v) {
         view.reverseState();
     }
+
+    public void redo(View v) {
+        view.forwardState();
+    }
 }
 
 
@@ -124,3 +128,4 @@ public class MainActivity extends AppCompatActivity {
 //Todo: Make menu/buttons look nice!
 //Todo: Graphic in menu to display pen size when changing it!
 //Todo: Save/load from/to phone memory!
+//Todo: Fill tool!

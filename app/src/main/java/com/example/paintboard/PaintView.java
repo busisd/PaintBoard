@@ -17,7 +17,8 @@ public class PaintView extends View {
     private Rect size;
     private int penRadius = 50;
     private Paint p;
-    private ArrayList<Bitmap> pastBitmaps;
+    private ArrayList<Bitmap> undoStates;
+    private ArrayList<Bitmap> redoStates;
 
     public PaintView(Context context) {
         super(context);
@@ -39,7 +40,8 @@ public class PaintView extends View {
         p = new Paint(Color.BLACK);
         p.setStrokeWidth(0);
         p.setStyle(Paint.Style.FILL);
-        pastBitmaps = new ArrayList<>();
+        undoStates = new ArrayList<>();
+        redoStates = new ArrayList<>();
     }
 
     @Override
@@ -67,19 +69,26 @@ public class PaintView extends View {
     }
 
     public void saveState(){
-        pastBitmaps.add(0, bitmap.copy(bitmap.getConfig(), true));
+        redoStates.clear();
+        undoStates.add(0, bitmap.copy(bitmap.getConfig(), true));
     }
 
     public void reverseState(){
-        if (!pastBitmaps.isEmpty()) {
-            Bitmap newMap = pastBitmaps.remove(0);
+        if (!undoStates.isEmpty()) {
+            Bitmap newMap = undoStates.remove(0);
+            redoStates.add(0,bitmap.copy(bitmap.getConfig(), true));
             bitmap = newMap.copy(newMap.getConfig(), true);
             bitmapEditor = new Canvas(bitmap);
         }
     }
 
     public void forwardState(){
-
+        if (!redoStates.isEmpty()) {
+            Bitmap newMap = redoStates.remove(0);
+            undoStates.add(0,bitmap.copy(bitmap.getConfig(),true));
+            bitmap = newMap.copy(newMap.getConfig(), true);
+            bitmapEditor = new Canvas(bitmap);
+        }
     }
 
     public void changePenSize(int change){

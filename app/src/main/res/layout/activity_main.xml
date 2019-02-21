@@ -68,10 +68,17 @@
 
             <Button
                 android:id="@+id/undoButton"
-                android:layout_width="118dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:onClick="undo"
                 android:text="Undo" />
+
+            <Button
+                android:id="@+id/redoButton"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:onClick="redo"
+                android:text="Redo" />
 
             <SeekBar
                 android:id="@+id/seekBar"
