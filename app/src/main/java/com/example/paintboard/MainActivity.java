@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        view.setPenSize(seekBar.getProgress()+5);
+        view.setPenSize(seekBar.getProgress()*2+5);
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
             int x;
             int y;
@@ -61,16 +61,13 @@ public class MainActivity extends AppCompatActivity {
                 x =  Math.round(event.getHistoricalX(i));
                 y =  Math.round(event.getHistoricalY(i));
                 positions.add(new int[] {x,y-statusBarHeight});
-                Log.i("TIME1:",Long.toString(event.getHistoricalEventTime(i)));
             }
             x = Math.round(event.getX());
             y = Math.round(event.getY());
             positions.add(new int[] {x,y-statusBarHeight});
-            Log.i("TIME2:",Long.toString(event.getEventTime()));
-
 
         } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            int[] pos = {(int)event.getX(), (int)event.getY()};
+            int[] pos = {(int)event.getX(), (int)event.getY()-statusBarHeight};
             view.fingerDown(pos);
         }
         return true;

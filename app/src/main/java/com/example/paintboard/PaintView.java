@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -18,9 +17,10 @@ public class PaintView extends View {
     private Canvas bitmapEditor;
     private Rect size;
     private int penRadius = 50;
-    private Paint p;
     private ArrayList<Bitmap> undoStates;
     private ArrayList<Bitmap> redoStates;
+    private Paint p;
+    private int[] prevPos = new int[] {0,0};
 
     public PaintView(Context context) {
         super(context);
@@ -39,16 +39,13 @@ public class PaintView extends View {
 
 
     private void init(){
-        p = new Paint(Color.BLACK);
-        p.setStrokeWidth(0);
-        p.setStyle(Paint.Style.FILL);
         undoStates = new ArrayList<>();
         redoStates = new ArrayList<>();
 
-        p2 = new Paint();
-        p2.setStrokeWidth(50);
-        p2.setColor(Color.BLUE);
-        p2.setStrokeCap(Paint.Cap.ROUND);
+        p = new Paint();
+        p.setStrokeWidth(50);
+        p.setColor(Color.BLUE);
+        p.setStrokeCap(Paint.Cap.ROUND);
     }
 
     @Override
@@ -71,13 +68,11 @@ public class PaintView extends View {
         bitmapEditor.drawCircle(centerX, centerY, penRadius, p);
     }
 
-    private Paint p2;
-    private int[] prevPos = new int[] {0,0};
     public void drawLines(LinkedList<int[]> positions){
         if (!positions.isEmpty()) {
-            bitmapEditor.drawLine(prevPos[0],prevPos[1], positions.get(0)[0], positions.get(0)[1], p2);
+            bitmapEditor.drawLine(prevPos[0],prevPos[1], positions.get(0)[0], positions.get(0)[1], p);
             for (int i=0; i<positions.size()-1;i++) {
-                bitmapEditor.drawLine(positions.get(i)[0],positions.get(i)[1], positions.get(i+1)[0], positions.get(i+1)[1], p2);
+                bitmapEditor.drawLine(positions.get(i)[0],positions.get(i)[1], positions.get(i+1)[0], positions.get(i+1)[1], p);
             }
             prevPos = positions.getLast();
         }
@@ -121,10 +116,12 @@ public class PaintView extends View {
     public void changePenSize(int change){
         penRadius += change;
         if (penRadius<=0) penRadius = 5;
+        p.setStrokeWidth(penRadius);
     }
 
     public void setPenSize(int newSize){
         penRadius = newSize;
+        p.setStrokeWidth(penRadius);
     }
 
     public void setColor(int newColor){
