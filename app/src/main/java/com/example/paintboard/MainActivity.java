@@ -5,7 +5,6 @@ import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -74,11 +73,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void draw(){
-        //int[] cur;
-        //while(positions.size() > 0) {
-          //  cur = positions.removeLast();
-            //view.paintAt(cur[0], cur[1]);
-        //}
         view.drawLines(positions);
         positions.clear();
         view.invalidate();
@@ -92,14 +86,6 @@ public class MainActivity extends AppCompatActivity {
         prevTime = curTime;
         String FPSOut = "        FPS: "+Long.toString(curFPS);
         fpsMeter.setText(FPSOut);
-    }
-
-    public void increasePenSize(View v){
-        view.changePenSize(5);
-    }
-
-    public void decreasePenSize(View v){
-        view.changePenSize(-5);
     }
 
     public void setRandomColor(View v){
@@ -136,3 +122,4 @@ public class MainActivity extends AppCompatActivity {
 //Todo: Fill tool!
 //Todo: Use a custom drawable to add a border to the menu
 //Todo: Make the menu look nice!
+//Todo: Use AsyncTask for drawing vs displaying!

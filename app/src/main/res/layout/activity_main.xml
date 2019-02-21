@@ -33,9 +33,10 @@
         <LinearLayout
             android:id="@+id/optionsMenu"
             android:layout_width="wrap_content"
-            android:layout_height="312dp"
+            android:layout_height="wrap_content"
             android:background="#88CCCCCC"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="80dp">
 
             <TextView
                 android:id="@+id/FPSMeter"
@@ -45,20 +46,6 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/PenSizeUpButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="increasePenSize"
-                android:text="@string/penSizeUpButtonString" />
-
-            <Button
-                android:id="@+id/PenSizeDownButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="decreasePenSize"
-                android:text="@string/penSizeDownButtonString" />
 
             <Button
                 android:id="@+id/randomColorButton"

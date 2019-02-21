@@ -64,10 +64,6 @@ public class PaintView extends View {
         c.drawBitmap(bitmap, null, size, null);
     }
 
-    public void paintAt(int centerX, int centerY){
-        bitmapEditor.drawCircle(centerX, centerY, penRadius, p);
-    }
-
     public void drawLines(LinkedList<int[]> positions){
         if (!positions.isEmpty()) {
             bitmapEditor.drawLine(prevPos[0],prevPos[1], positions.get(0)[0], positions.get(0)[1], p);
@@ -76,10 +72,6 @@ public class PaintView extends View {
             }
             prevPos = positions.getLast();
         }
-    }
-
-    private boolean isPosValid(int x, int y){
-        return (x < size.width() && y < size.height() && x >= 0 && y >= 0);
     }
 
     public void fingerDown(int[] position){
@@ -111,12 +103,6 @@ public class PaintView extends View {
             bitmap = newMap.copy(newMap.getConfig(), true);
             bitmapEditor = new Canvas(bitmap);
         }
-    }
-
-    public void changePenSize(int change){
-        penRadius += change;
-        if (penRadius<=0) penRadius = 5;
-        p.setStrokeWidth(penRadius);
     }
 
     public void setPenSize(int newSize){
